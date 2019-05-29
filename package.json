@@ -11,7 +11,7 @@
     "API"
   ],
   "author": "Rajdeep Deb",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bin": {
     "api-ext": "bin/index.js"
   },
@@ -24,5 +24,17 @@
     "lodash": "^4.17.11",
     "shelljs": "^0.8.3",
     "winston": "^3.2.1"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsrts/api-ext.git"
+  },
+  "bugs": {
+    "url": "https://github.com/itsrts/api-ext/issues"
+  },
+  "homepage": "https://github.com/itsrts/api-ext#readme"
 }
