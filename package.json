@@ -1,6 +1,6 @@
 {
   "name": "api-ext",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An API framework in approach to build APIs with extensibility in mind ",
   "main": "src/index.js",
   "scripts": {
