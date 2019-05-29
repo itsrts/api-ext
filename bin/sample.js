@@ -7,7 +7,7 @@ let {className, method, route} = config;
 /*jshint multistr: true ,node: true*/
 "use strict";
 
-const ServerRequest = require('../src').ServerRequest;
+const ServerRequest = require('api-ext').ServerRequest;
 
 class ${className} extends ServerRequest {
 
