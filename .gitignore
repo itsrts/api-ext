@@ -1,0 +1,14 @@
+node_modules
+.project
+.settings
+logs
+npm-debug.log
+.DS_Store
+.vscode
+.idea
+.eslintrc.json
+*.iml
+coverage
+mochawesome-report
+package-lock.json
+.nyc_output

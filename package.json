@@ -1,0 +1,28 @@
+{
+  "name": "api-ext",
+  "version": "1.0.0",
+  "description": "An API framework in approach to build APIs with extensibility in mind ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "framework",
+    "API"
+  ],
+  "author": "Rajdeep Deb",
+  "license": "ISC",
+  "bin": {
+    "api-ext": "bin/index.js"
+  },
+  "dependencies": {
+    "ajv": "^6.10.0",
+    "chalk": "^2.4.2",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "inquirer": "^6.3.1",
+    "lodash": "^4.17.11",
+    "shelljs": "^0.8.3",
+    "winston": "^3.2.1"
+  }
+}
