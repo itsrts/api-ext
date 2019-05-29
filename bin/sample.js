@@ -24,7 +24,7 @@ class ${className} extends ServerRequest {
     }
 
     process(data) {
-        return "hello world";
+        return "Hello !! This is a sample response from class '${className}'";
     }
 
     makeResponse(data, result) {

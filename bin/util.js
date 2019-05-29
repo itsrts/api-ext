@@ -74,22 +74,42 @@ const addRoutes = function (config) {
         });
 }
 
+const kickStart = function() {
+fs.writeFileSync('app.js', `
+/*jshint multistr: true ,node: true*/
+"use strict";
+
+require('./routes');
+require('api-ext').Server.getInstance().start();
+`);
+
+fs.writeFileSync('routes.js', `
+/*jshint multistr: true ,node: true*/
+"use strict";
+
+`);
+}
+
 const createModule = function (path) {
-    fs.writeFileSync(`${path}/index.js`, `
+fs.writeFileSync(`${path}/index.js`, `
 /*jshint multistr: true ,node: true*/
 "use strict";
 
 require('./routes');
 `);
 
-    fs.writeFileSync(`${path}/routes.js`, `
+fs.writeFileSync(`${path}/routes.js`, `
 /*jshint multistr: true ,node: true*/
 "use strict";
 `);
+
+fs.appendFileSync('routes.js', `
+require('./${path}');`);
 }
 
 module.exports = {
     usage,
+    kickStart,
     addRoutes,
     createModule
 }

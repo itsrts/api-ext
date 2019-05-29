@@ -22,6 +22,10 @@ switch (cmd) {
         util.usage();
         break;
 
+    case 'start':
+        util.kickStart();
+        break;
+
     case 'module':
         shell.mkdir(path);
         util.createModule(path);
