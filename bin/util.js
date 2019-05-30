@@ -1,6 +1,8 @@
 
 var fs = require("fs");
 const chalk = require('chalk');
+const shell = require('shelljs');
+var inquirer = require('inquirer');
 
 // usage represents the help guide
 const usage = function () {
@@ -8,14 +10,15 @@ const usage = function () {
 api-ext helps you manage you apis and have them extensible.
 
 ${chalk.underline('usage:')}
-    api-ext <command>
+    api-ext <command> <path/file>
 
-    module    :   used to create a new module
-    request   :   used to create a new request to a module/given path
+    init      :   initialize a new project
+    module    :   add a new module
+    request   :   create a new request to a given module/path
 `;
 
-console.log(chalk.red("\nSeems like you need some help with the commands"));
-console.log(usageText)
+    console.log(chalk.red("\nSeems like you need some help with the commands"));
+    console.log(usageText)
 }
 
 const addRoutes = function (config) {
@@ -36,7 +39,6 @@ const addRoutes = function (config) {
         choices: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], filter: function (val) { return val.toUpperCase(); }
     }];
 
-    var inquirer = require('inquirer');
     inquirer
         .prompt(questions)
         .then(answers => {
@@ -74,8 +76,57 @@ const addRoutes = function (config) {
         });
 }
 
-const kickStart = function() {
-fs.writeFileSync('app.js', `
+const kickStart = function (path) {
+    var questions = [{
+        type: 'input', name: 'name', message: "package name: ", default: function () { return path; }
+    },
+    {
+        type: 'input', name: 'version', message: "version", default: function () { return "1.0.0"; }
+    },
+    {
+        type: 'input', name: 'description', message: "description"
+    },
+    {
+        type: 'input', name: 'main', message: "entry point", default: function () { return `index.js`; }
+    },
+    {
+        type: 'input', name: 'git_url', message: "git repository"
+    },
+    {
+        type: 'input', name: 'keywords', message: "keywords"
+    },
+    {
+        type: 'input', name: 'author', message: "author"
+    },
+    {
+        type: 'input', name: 'license:', message: "license:", default: function () { return `ISC`; }
+    },
+    {
+        type: 'list', name: 'ok', message: "Is this OK?",
+        choices: ['YES', 'NO'], filter: function (val) { return val.toUpperCase(); }
+    }];
+
+    inquirer
+        .prompt(questions)
+        .then(answers => {
+            if(answers.ok != 'YES') {
+                console.log(chalk.red('ABORTED..!!'));
+                process.exit();
+            } else {
+                try {
+                    shell.mkdir(path);
+                    var fileData = require('./sample').samplePackage(answers);
+                    fs.writeFileSync(path+'/package.json', fileData);
+                } catch (error) {
+                    console.log(chalk.red("\nThere was some error"), error);
+                    process.exit();
+                }
+            }
+
+    shell.cd(path);
+    console.log("installing ...");
+    console.log(shell.exec('npm install api-ext --save', { silent: true, async: false }).stdout);
+    fs.writeFileSync('app.js', `
 /*jshint multistr: true ,node: true*/
 "use strict";
 
@@ -83,27 +134,29 @@ require('./routes');
 require('api-ext').Server.getInstance().start();
 `);
 
-fs.writeFileSync('routes.js', `
+    fs.writeFileSync('routes.js', `
 /*jshint multistr: true ,node: true*/
 "use strict";
 
 `);
+        });
 }
 
 const createModule = function (path) {
-fs.writeFileSync(`${path}/index.js`, `
+    shell.mkdir(path);
+    fs.writeFileSync(`${path}/index.js`, `
 /*jshint multistr: true ,node: true*/
 "use strict";
 
 require('./routes');
 `);
 
-fs.writeFileSync(`${path}/routes.js`, `
+    fs.writeFileSync(`${path}/routes.js`, `
 /*jshint multistr: true ,node: true*/
 "use strict";
 `);
 
-fs.appendFileSync('routes.js', `
+    fs.appendFileSync('routes.js', `
 require('./${path}');`);
 }
 

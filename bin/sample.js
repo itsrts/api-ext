@@ -2,7 +2,7 @@
 "use strict";
 
 function sampleFile(config) {
-let {className, method, route} = config;
+    let { className, method, route } = config;
     return `
 /*jshint multistr: true ,node: true*/
 "use strict";
@@ -51,7 +51,7 @@ module.exports = {
 }
 
 function sampleRoute(config) {
-    let {fileName, method, route} = config;
+    let { fileName, method, route } = config;
     return `
 require('./${fileName}').listen({
     method : '${method}',
@@ -62,7 +62,52 @@ require('./${fileName}').listen({
 `;
 }
 
+function samplePackage(config) {
+    let { name, version, description, main, keywords, author, license, git_url } = config;
+    let keywordsArr = "[";
+    [].forEach(value => {
+        keywordsArr += "'" + value + "'";
+    });
+    keywordsArr += "]";
+    let content = `
+{
+  "name": "${name}",
+  "version": "${version}",
+  "description": "${description}",
+  "main": "${main}",
+  "scripts": {
+  },
+  "keywords": ${keywordsArr},
+  "author": "${author}",
+  "license": "${license}",
+  "bin": {
+  },
+  "dependencies": {
+  },
+  "directories": {
+  },
+  "devDependencies": {}`;
+    if (git_url) {
+        content += `,
+  "repository": {
+    "type": "git",
+    "url": "git+${git_url}.git"
+  },
+  "bugs": {
+    "url": "${git_url}/issues"
+  },
+  "homepage": "${git_url}#readme"
+}`;
+    } else {
+        content += `
+}`;
+    }
+
+    return content;
+}
+
 module.exports = {
     sampleFile,
-    sampleRoute
+    sampleRoute,
+    samplePackage
 };

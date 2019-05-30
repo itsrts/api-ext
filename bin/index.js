@@ -9,7 +9,7 @@ var shell = require('shelljs');
 var path = process.argv[2];
 var fileName = '';
 
-if (process.argv.length < 3) {
+if (process.argv.length < 4) {
     util.usage();
     process.exit();
 }
@@ -22,12 +22,11 @@ switch (cmd) {
         util.usage();
         break;
 
-    case 'start':
-        util.kickStart();
+    case 'init':
+        util.kickStart(path);
         break;
 
     case 'module':
-        shell.mkdir(path);
         util.createModule(path);
         break;
 
