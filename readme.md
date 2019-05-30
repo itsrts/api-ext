@@ -18,29 +18,33 @@ ServerRequest is a base class which controls the flow in the followin order:
 
 The CLI provides the boilerplate code and you can always modify as required.
 
-## Install globally as well
+## Install globally
 
 ```
 > npm install -g api-ext
-> npm install api-ext
 ```
 
 ## Kick Start Application
 
 ```
-> api-ext start
+> api-ext init project-name
 ```
 
 ## Add new module
 
 ```js
-> api-ext module my-module
+> api-ext module mymodule
 ```
 
 ## Add a request to the module
 
 ```js
-> api-ext request my-module/firstApi.js
+> api-ext request mymodule/firstApi.js
+
+OR
+
+> cd mymodule
+> api-ext request firstApi.js
 ```
 
 ## Start the application and we are :)
