@@ -28,6 +28,8 @@ The CLI provides the boilerplate code and you can always modify as required.
 
 ```
 > api-ext init project-name
+
+> cd project-name
 ```
 
 ## Add new module
