@@ -170,6 +170,8 @@ require('./routes');
     fs.writeFileSync(`${path}/routes.js`, `
 /*jshint multistr: true ,node: true*/
 "use strict";
+
+let schema = require('./schema');
 `);
 
 

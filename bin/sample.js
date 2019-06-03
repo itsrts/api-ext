@@ -56,7 +56,7 @@ function sampleRoute(config) {
 require('./${fileName}').listen({
     method : '${method}',
     route: '${route}',
-    schema: null,
+    schema: schema['${method}_${route}'],
     validator: null
 });
 `;
@@ -64,11 +64,11 @@ require('./${fileName}').listen({
 
 function sampleSchema(config) {
 
-    let { route } = config;
+    let { route, method } = config;
     return `
 
-schemas['${route}'] = {
-    $id: "${route}", type: "object", properties: {
+schemas['${method}_${route}'] = {
+    $id: "${method}_${route}", type: "object", properties: {
         headers: { type: "object" },
         body: { type: "object" },
         queryparams: { type: "object" },
@@ -76,10 +76,9 @@ schemas['${route}'] = {
         cookies: { type: "object" },
         path: { type: "string" },
         host: { type: "string" },
-        url: { type: "string" },
-        method: { type: "enum" }
+        url: { type: "string" }
     },
-    required: ["path", "host", "url", "method"]
+    required: ["path", "host", "url"]
 };
 `;
 }

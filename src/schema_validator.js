@@ -23,7 +23,7 @@ schemaValidator.prototype.validate = function(data, schema) {
 
     if(!result) {
         let message = this.ajv.errorsText().replace(/'/g, "").replace("data ", "");
-        L.log('the error message is->', message);
+        L.log('the error message is->' + message);
         // change message if it is a pattern faliure
         if(message.indexOf('should match pattern') > 0) {
             message = 'Invalid Input';

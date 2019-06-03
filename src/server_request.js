@@ -60,7 +60,7 @@ class ServerRequest {
         if (this.requestSchema) {
             let result = validator.validate(data, this.requestSchema);
             if (!result.valid) {
-                L.error("Schema validation failed for reason: ", result.error);
+                L.error("Schema validation failed for reason: " + result.error);
                 throw {
                     code: 412,
                     status: 'Invalid Request body'
