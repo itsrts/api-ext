@@ -62,6 +62,28 @@ require('./${fileName}').listen({
 `;
 }
 
+function sampleSchema(config) {
+
+    let { route } = config;
+    return `
+
+schemas['${route}'] = {
+    $id: "${route}", type: "object", properties: {
+        headers: { type: "object" },
+        body: { type: "object" },
+        queryparams: { type: "object" },
+        pathparams: { type: "object" },
+        cookies: { type: "object" },
+        path: { type: "string" },
+        host: { type: "string" },
+        url: { type: "string" },
+        method: { type: "enum" }
+    },
+    required: ["path", "host", "url", "method"]
+};
+`;
+}
+
 function samplePackage(config) {
     let { name, version, description, main, keywords, author, license, git_url } = config;
     let keywordsArr = "[";
@@ -109,5 +131,6 @@ function samplePackage(config) {
 module.exports = {
     sampleFile,
     sampleRoute,
-    samplePackage
+    samplePackage,
+    sampleSchema
 };

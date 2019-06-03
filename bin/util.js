@@ -54,24 +54,40 @@ const addRoutes = function (config) {
             };
             var fileData = require('./sample').sampleFile(config);
             var routeData = require('./sample').sampleRoute(config);
+            var schemaData = require('./sample').sampleSchema(config);
             try {
+                // sample file
                 fs.writeFileSync(path, fileData);
+                console.log(chalk.green("\File Created"));
             } catch (error) {
                 console.log(chalk.red("\nThere was some error, Please check if the modules are created for the path"));
                 console.log(path);
                 usage();
                 process.exit();
             }
+            // change path for routes file
+            path = path.replace(fileName, 'routes.js');
             try {
                 // add to routes
-                path = path.replace(fileName, 'routes.js');
                 fs.readFileSync(path, 'utf-8');
                 fs.appendFileSync(path, routeData);
                 console.log(chalk.green("\nRoute Added"));
             } catch (error) {
-                console.log(chalk.yellow("Creating the route file"));
-                fs.writeFileSync(path, routeData);
-                console.log(chalk.green("\nRoute Added"));
+                console.log(chalk.red("\nThere was some error, Please check if the route was added"));
+                console.log(path);
+                process.exit();
+            }
+            // change path for schema file
+            path = path.replace('routes.js', 'schema.js');
+            try {
+                // add to routes
+                fs.readFileSync(path, 'utf-8');
+                fs.appendFileSync(path, schemaData);
+                console.log(chalk.green("\nSchema Added"));
+            } catch (error) {
+                console.log(chalk.red("\nThere was some error, Please check if the schema was added"));
+                console.log(path);
+                process.exit();
             }
         });
 }
@@ -156,8 +172,19 @@ require('./routes');
 "use strict";
 `);
 
+
+    fs.writeFileSync(`${path}/schema.js`, `
+/*jshint multistr: true ,node: true*/
+"use strict";
+
+let schemas = {};
+module.exports = schemas;
+`);
+
     fs.appendFileSync('routes.js', `
 require('./${path}');`);
+
+console.log(chalk.green("\nModule Created"));
 }
 
 module.exports = {
