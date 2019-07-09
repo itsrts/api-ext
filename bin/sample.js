@@ -23,11 +23,11 @@ class ${className} extends ServerRequest {
         });
     }
 
-    process(data) {
+    process(request, data, response) {
         return "Hello !! This is a sample response from class '${className}'";
     }
 
-    makeResponse(data, result) {
+    makeResponse(data, result, request, response) {
         return {
             "response" : result
         };

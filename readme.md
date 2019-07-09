@@ -13,7 +13,7 @@ ServerRequest is a base class which controls the flow in the followin order:
 1) sanityChecks
 2) process
 3) makeResponse
-4) postProcess (done asynchronously)
+4) postProcess (done asynchronously, after response is sent)
 5) handleError
 
 The CLI provides the boilerplate code and you can always modify as required.
@@ -24,7 +24,7 @@ The CLI provides the boilerplate code and you can always modify as required.
 > npm install -g api-ext
 ```
 
-## Kick Start Application
+## init Project
 
 ```
 > api-ext init project-name
@@ -32,13 +32,13 @@ The CLI provides the boilerplate code and you can always modify as required.
 > cd project-name
 ```
 
-## Add new module
+## Add new module (optional)
 
 ```js
 > api-ext module mymodule
 ```
 
-## Add a request to the module
+## Add a request
 
 ```js
 > api-ext request mymodule/firstApi.js
@@ -56,3 +56,12 @@ OR
 
   server started at port 8080
 ```
+
+## To be noted
+
+The CLI tool will prompt a few questions for creating a new request.
+
+Request Schema Validator is very handy tool to validate incoming request before actually processing them.
+api-ext uses the AJV library https://www.npmjs.com/package/ajv, It is very dynamic and extensible.
+Here is the list of types available, https://github.com/epoberezkin/ajv/blob/master/KEYWORDS.md#type
+
