@@ -245,7 +245,12 @@ let CreateOrUpdateEnv = function(env, envConfig) {
         value = value.split("=");
         let key = value[0];
         let val = value[1];
-        newConfig[key] = val;
+        if(val=='true' || val=='false') {
+            val = JSON.parse(val);
+        } else if(val.length > 0 && !isNaN(val)) {
+            val = Number(val);
+        }
+        _.set(newConfig, key, val);
     });
     try {
         fs.readFileSync(path, 'utf-8');
