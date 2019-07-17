@@ -3,7 +3,7 @@ var fs = require("fs");
 const chalk = require('chalk');
 const shell = require('shelljs');
 var inquirer = require('inquirer');
-
+var _ = require('lodash');
 // usage represents the help guide
 const usage = function () {
     const usageText = `
@@ -12,9 +12,10 @@ api-ext helps you manage you apis and have them extensible.
 ${chalk.underline('usage:')}
     api-ext <command> <path/file>
 
-    init      :   initialize a new project
-    module    :   add a new module
-    request   :   create a new request to a given module/path
+    init      :   initialize a new project | ${chalk.red('api-ext init myproject')}
+    module    :   add a new module | ${chalk.red('api-ext module mymodule')}
+    request   :   create a new request to a given module/path | ${chalk.red('api-ext request mymodule/myrequest.js')}
+    env       :   add env variables to a specified environment | ${chalk.red('api-ext env dev port=8080')}
 `;
 
     console.log(chalk.red("\nSeems like you need some help with the commands"));
@@ -236,9 +237,35 @@ require('./${path}');`);
 console.log(chalk.green("\nModule Created"));
 }
 
+let CreateOrUpdateEnv = function(env, envConfig) {
+    envConfig = envConfig.split(",");
+    let newConfig = {};
+    let path = process.cwd() + `/env/${env}.js`;
+    envConfig.forEach(value => {
+        value = value.split("=");
+        let key = value[0];
+        let val = value[1];
+        newConfig[key] = val;
+    });
+    try {
+        fs.readFileSync(path, 'utf-8');
+        let config = require(path);
+        newConfig = _.merge(config, newConfig);
+    } catch (error) {
+        console.log("Creating new environment");
+    }
+    fs.writeFileSync(path, `
+/*jshint multistr: true ,node: true*/
+"use strict";
+
+module.exports = ${JSON.stringify(newConfig, null, 4)}
+`);
+}
+
 module.exports = {
     usage,
     kickStart,
     addRoutes,
+    CreateOrUpdateEnv,
     createModule
 }

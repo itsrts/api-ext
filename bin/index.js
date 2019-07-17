@@ -52,6 +52,17 @@ switch (cmd) {
         };
         util.addRoutes(config);
         break;
+    
+        case 'env':
+            if(process.argv.length < 5) {
+                util.usage();
+                process.exit();
+            }
+            let env = process.argv[3];
+            let envConfig = process.argv[4];
+            util.CreateOrUpdateEnv(env, envConfig);
+            break;
+    
     default:
         util.usage();
 }
