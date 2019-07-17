@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
-var fs = require("fs");
-const chalk = require('chalk');
 var util = require('./util');
-var shell = require('shelljs');
 
 
 var path = process.argv[2];

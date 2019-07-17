@@ -65,3 +65,6 @@ Request Schema Validator is very handy tool to validate incoming request before 
 api-ext uses the AJV library https://www.npmjs.com/package/ajv, It is very dynamic and extensible.
 Here is the list of types available, https://github.com/epoberezkin/ajv/blob/master/KEYWORDS.md#type
 
+#Environment Configurations
+
+Add environment support for project

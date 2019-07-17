@@ -147,7 +147,8 @@ const kickStart = function (path) {
 "use strict";
 
 require('./routes');
-require('api-ext').Server.getInstance().start();
+let config = require('./env').getEnvConfig();
+require('api-ext').Server.getInstance().start(config.port);
 `);
 
     fs.writeFileSync('routes.js', `
@@ -155,7 +156,53 @@ require('api-ext').Server.getInstance().start();
 "use strict";
 
 `);
+addEnv();
         });
+}
+
+const addEnv = function() {
+    // creating env directory for the first time
+    console.log("Creating env directory");
+    shell.mkdir('env');
+
+    fs.writeFileSync(`env/base.js`, `
+/*jshint multistr: true ,node: true*/
+"use strict";
+
+module.exports = {
+    "port" : 8080
+}
+`);
+    fs.writeFileSync(`env/index.js`, `
+/*jshint multistr: true ,node: true*/
+"use strict";
+
+let envs = {};
+let _ = require('lodash');
+let base = require('./base.js');
+
+module.exports = {
+    /**
+     * @returns {base}  
+     */
+    getEnvConfig() {
+        let environment = process.env.NODE_ENV || 'base';
+        environment = \`./\${environment}.js\`;
+        if(!envs[environment]) {
+            // try to load it
+            try {
+                let config = require(environment);
+                config = _.merge(_.cloneDeep(base), config);
+                envs[environment] = config;
+                console.log(environment + " environment is loaded");
+            } catch (error) {
+                console.log(environment + " environment is not supported");
+            }
+        }
+        return envs[environment];
+    }
+}    
+`);
 }
 
 const createModule = function (path) {

@@ -3,4 +3,6 @@
 
 require('./routes');
 
-require('../src').Server.getInstance().start();
+let config = require('../env').getEnvConfig();
+
+require('../src').Server.getInstance().start(config.port);
