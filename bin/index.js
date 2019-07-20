@@ -54,6 +54,7 @@ switch (cmd) {
         break;
     
         case 'env':
+            // if the number of parameters are not sufficient
             if(process.argv.length < 5) {
                 util.usage();
                 process.exit();

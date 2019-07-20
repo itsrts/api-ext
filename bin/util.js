@@ -243,6 +243,14 @@ let CreateOrUpdateEnv = function(env, envConfig) {
     let path = process.cwd() + `/env/${env}.js`;
     envConfig.forEach(value => {
         value = value.split("=");
+        if(value.length!=2) {
+            console.log();
+            console.log(chalk.red("wrong input format"));
+            console.log();
+            console.log("Correct Format");
+            console.log(chalk.blue("key1=value1,key2=value2"));
+            process.exit();
+        }
         let key = value[0];
         let val = value[1];
         if(val=='true' || val=='false') {
