@@ -4,7 +4,7 @@
 > A framework to build APIs with modularity in mind
 
 The framework is powered by express underneath.
-It empowers module based programming in node.js and does a lot of heavy lifting by default.
+It encourages module based programming in node.js and does a lot of heavy lifting by itself.
 
 Providing a clean code architecture, schema validations, error handling.
 One can have a fresh server up and running in less than 30 seconds.
@@ -77,5 +77,8 @@ As expected, it picks the environment from `NODE_ENV` environment variable
 e.g. `NODE_ENV=dev node app.js` will  start the application in `dev` environment 
 
 ```js
-let config = require('../env').getEnvConfig(); // loads the selected environment and returns the configuration
+// loads the selected environment and returns the configuration
+let config = require('../env').getEnvConfig();
+// using the port from the config
+require('../src').Server.getInstance().start(config.port);
 ```
