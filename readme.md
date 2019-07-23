@@ -67,4 +67,15 @@ Here is the list of types available, https://github.com/epoberezkin/ajv/blob/mas
 
 #Environment Configurations
 
-Add environment support for project
+Adding an environment variable in a project is as simple as a single command. It will add the configuration to the selected environment. The default configuration is available in the `/env/base.js` file.
+The folllowing command will add `somekey` attribute with `value` in the `dev` environment.
+```js
+> api-ext env dev somekey=value
+```
+As expected, it picks the environment from `NODE_ENV` environment variable
+
+e.g. `NODE_ENV=dev node app.js` will  start the application in `dev` environment 
+
+```js
+let config = require('../env').getEnvConfig(); // loads the selected environment and returns the configuration
+```
