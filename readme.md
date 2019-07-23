@@ -1,7 +1,7 @@
 
 # api-ext
 
-> An API framework in approach to build APIs with extensibility in mind
+> A framework to build APIs with modularity in mind
 
 The framework is powered by express underneath.
 It empowers module based programming in node.js and does a lot of heavy lifting by default.
