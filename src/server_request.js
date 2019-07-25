@@ -58,9 +58,10 @@ class ServerRequest {
      */
     sanityChecks(data) {
         if (this.requestSchema) {
-            let result = validator.validate(data, this.requestSchema);
-            if (!result.valid) {
-                L.error("Schema validation failed for reason: " + result.error);
+            try {
+                validator.validate(data, this.requestSchema);
+            } catch (error) {
+                L.error("Schema validation failed for reason: " + error);
                 throw {
                     code: 412,
                     status: 'Invalid Request body'
@@ -128,7 +129,7 @@ class ServerRequest {
 
         try {
             await this.sanityChecks(data);
-            let result = await this.process(request, data, response);
+            let result = await this.process(data, request, response);
             result = await this.makeResponse(data, result, request, response);
             if (result.statusCode && result.body) {
                 response.sendResponse(result.statusCode, result.body);
@@ -140,7 +141,7 @@ class ServerRequest {
             if (error === ServerRequest.RESPONSE_SENT) {
                 return;
             }
-            error = await this.handleError(request, data, error);
+            error = await this.handleError(data, error, request, response);
             response.sendResponse(error.statusCode, error.body);
         }
     }
