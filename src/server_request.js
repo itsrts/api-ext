@@ -26,7 +26,7 @@ const prepareRequestData = (request, response) => {
         body: request.body,
         queryparams: request.query,
         pathparams: request.params,
-        cookies: request.headers.cookies,
+        cookies: request.cookies,
         path: request.path,
         host: request.hostname,
         url: request.url,
@@ -41,9 +41,10 @@ class ServerRequest {
      */
     constructor(config) {
         this.setRequestBodySchema(config.schema);
+        this.validator = config.validator;
         SERVER.add(config.method, config.route, (req, res) => {
             this.execute(req, res);
-        }, config.validator);
+        });
     }
 
     setRequestBodySchema(requestSchema) {
@@ -129,6 +130,9 @@ class ServerRequest {
 
         try {
             await this.sanityChecks(data);
+            if(this.validator) {
+                await this.validator(data);
+            }
             let result = await this.process(data, request, response);
             result = await this.makeResponse(data, result, request, response);
             if (result.statusCode && result.body) {
