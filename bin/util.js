@@ -157,6 +157,14 @@ require('api-ext').Server.getInstance().start(config.port);
 "use strict";
 
 `);
+    fs.writeFileSync(`schema.js`, `
+/*jshint multistr: true ,node: true*/
+"use strict";
+
+let schemas = {};
+module.exports = schemas;
+    `);
+
 addEnv();
         });
 }
